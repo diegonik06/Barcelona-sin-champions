@@ -1,32 +1,27 @@
-name: Bot Diario Barcelona
+name: Bot Barça Diario
 
 on:
   schedule:
-    # Se ejecuta a las 19:00 UTC (1:00 PM hora México)
+    # 19:00 UTC es la 1:00 PM en CDMX
     - cron: '0 19 * * *'
-  # Permite activarlo manualmente para probar
-  workflow_dispatch:
+  workflow_dispatch: # Activa el botón para correrlo manual
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Descargar código
+      - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Instalar Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
-      - name: Instalar librerías
+      - name: Instalar
         run: pip install -r requirements.txt
-
-      - name: Ejecutar bot
+      - name: Correr
         env:
           API_KEY: ${{ secrets.API_KEY }}
           API_SECRET: ${{ secrets.API_SECRET }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
         run: python main.py
-        
